@@ -6,6 +6,7 @@ knitr::opts_chunk$set(
 
 ## ----setup--------------------------------------------------------------------
 library(icmstate)
+set.seed(1)
 
 ## ----transmatID---------------------------------------------------------------
 library(mstate)
@@ -75,7 +76,7 @@ library(survival)
 tmat2_ID <- to.trans2(tmat_ID)
 dat_true <- data_ID$true
 
-## -----------------------------------------------------------------------------
+## ----truevssimulatedtrajectories----------------------------------------------
 opar <- par(no.readonly = TRUE)
 par(mfrow = c(2,2))
 dat_surv <- reshape(dat_true, direction = "wide", idvar = "id", timevar = "state")
@@ -88,7 +89,8 @@ dat1[is.na(dat1[, "time.2"]), "time.2"] <- dat1[is.na(dat1[, "time.2"]), "time.3
 dat1 <- dat1[!dat1[, "time.2"] == 0,]
 first_trans <- survfit(Surv(time.1, time.2, status) ~ 1, data = dat1)
 plot(first_trans, fun = "cumhaz", xlim = c(0, 30), main = "First transition")
-lines(first_trans$time, -pweibull(first_trans$time, shape_ID[1], scale_ID[1], lower = FALSE, log = TRUE), col = "red")
+lines(first_trans$time, -pweibull(first_trans$time, shape_ID[1], scale_ID[1], 
+                                  lower = FALSE, log = TRUE), col = "red")
 
 #From 1 to 3
 dat2 <- dat_surv
@@ -96,11 +98,13 @@ dat2[!is.na(dat2[, "time.2"]), "status"] <- 0
 dat2[!is.na(dat2[, "time.2"]), "time.3"] <- dat2[!is.na(dat2[, "time.2"]), "time.2"]
 second_trans <- survival::survfit(Surv(time.3, status) ~ 1, data = dat2)
 plot(second_trans, fun = "cumhaz", xlim = c(0, 30), main = "Second transition")
-lines(second_trans$time, -pweibull(first_trans$time, shape_ID[2], scale_ID[2], lower = FALSE, log = TRUE), col = "red")
+lines(second_trans$time, -pweibull(first_trans$time, shape_ID[2], scale_ID[2], 
+                                   lower = FALSE, log = TRUE), col = "red")
 
 third_trans <- survfit(Surv(time.2, time.3, status) ~ 1, data = subset(dat_surv, !is.na(time.2)))
 plot(third_trans, fun = "cumhaz", xlim = c(0, 30), main = "Third transition")
-lines(third_trans$time, -pweibull(third_trans$time, shape_ID[3], scale_ID[3], lower = FALSE, log = TRUE), col = "red")
+lines(third_trans$time, -pweibull(third_trans$time, shape_ID[3], scale_ID[3], 
+                                  lower = FALSE, log = TRUE), col = "red")
 par(opar)
 
 ## ----npmsmicdata--------------------------------------------------------------
