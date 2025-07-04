@@ -97,13 +97,13 @@ in the likelihood? Default is FALSE.}
 infinity be included in the algorithm? Default is FALSE.}
 
 \item{checkMLE}{Should a check be performed whether the estimate has converged 
-towards a true Maximum Likelihood Estimate? This is done by comparing 
+towards a local maximum? This is done by comparing 
 the reduced gradient to the value of \code{checkMLE_tol}. Default is TRUE.}
 
-\item{checkMLE_tol}{Tolerance for checking whether the estimate has converged to MLE.
+\item{checkMLE_tol}{Tolerance for checking whether the estimate has converged to local maximum.
 Whenever an estimated transition intensity is smaller than \code{prob_tol}, it is assumed 
 to be zero and its reduced gradient is not considered for determining whether 
-the NPMLE has been reached. Default = \code{1e-4}.}
+the maximum has been reached. Default = \code{1e-4}.}
 
 \item{prob_tol}{If an estimated probability is smaller than \code{prob_tol}, 
 it will be set to zero during estimation. Default value is \code{tol/10}.}
@@ -132,7 +132,6 @@ in the related article.}
 }
 \value{
 A list with the following entries:
-\describe{
   \item{\code{A}: }{A list of class \code{\link[mstate:msfit]{msfit}} containing 
   the cumulative intensities for each transition and the transition matrix used;}
   \item{\code{Ainit}: }{Initial intensities, in an object of class \code{\link[mstate:msfit]{msfit}};}
@@ -169,7 +168,6 @@ A list with the following entries:
   \item{\code{checkMLE_tol}: }{The tolerance of the checkMLE procedure;}
   \item{\code{prob_tol}: }{Tolerance for probabilities to be set to zero;}
   \item{\code{remove_redundant}: }{Were redundant observations removed before performing the procedure?;}
-}
 }
 \description{
 For a general Markov chain multi-state model with interval censored 

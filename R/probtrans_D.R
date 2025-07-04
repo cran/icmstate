@@ -136,6 +136,8 @@ probtrans_D <- function(int_mat, predt, direction = c("forward", "fixedhorizon")
 
 probtrans_C <- function(int_mat, predt, cutoff, direction = c("forward", "fixedhorizon"), as.df = FALSE){
   
+  #Only difference between probtrans_C and probtrans_D is that
+  #probtrans_C has the cutoff argument, allowing to select smaller time windows
   #Cutoff must be larger/smaller than predt when direction is forward/fixedhorizon
   
   #Get only the matrices and times relevant for our probabilities
@@ -226,7 +228,7 @@ probtrans_C <- function(int_mat, predt, cutoff, direction = c("forward", "fixedh
 #' Given an \code{msfit} object, extract intensity matrices in 3D array form
 #' 
 #' @description Transform an \code{\link[mstate:msfit]{msfit}} object into 
-#' a 3D array representing the intension matrix over time. The dimensions represent:
+#' a 3D array representing the intensity matrix over time. The dimensions represent:
 #' \describe{
 #'   \item{\code{1st}:}{States from which a transition takes place;}
 #'   \item{\code{2nd}:}{States to which a transition takes place;}
